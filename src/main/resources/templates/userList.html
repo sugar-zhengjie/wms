@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+    <script>
+        $(function () {
+            window.addUser = function() {
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        type: 2,
+                        title:"新增",
+                        maxmin: true,
+                        area: ["600px", "400px"],
+                        offset: "50px",
+                        cancel: function() {
+                            window.location.reload();
+                        },
+                        content: 'addUser' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    });
+                });
+            }
+            window.editUser = function(id) {
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        type: 2,
+                        title: "编辑",
+                        maxmin: true,
+                        area: ["600px", "400px"],
+                        offset: "50px",
+                        cancel: function() {
+                            window.location.reload();
+                        },
+                        content: 'editUser?user_id=' + id //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    });
+                });
+            }
+            window.editUserRole = function(id) {
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        type: 2,
+                        title: "编辑",
+                        maxmin: true,
+                        area: ["600px", "400px"],
+                        offset: "50px",
+                        cancel: function() {
+                            window.location.reload();
+                        },
+                        content: 'editUserRole?user_id=' + id //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    });
+                });
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <form class="form-search" action="userList" method="POST">
+        <span>账号: </span>
+        <input type="text" class="input-medium search-query" name="account" th:value="${account}">
+        <span>姓名: </span>
+        <input type="text" class="input-medium search-query" name="name" th:value="${name}">
+        <span>角色: </span>
+        <select  name="roleCheck" id="roleCheck">
+            <option>请选择角色</option>
+            <option th:each="role:${roles}" th:value="${role.role_id}" th:text="${role.name}"></option>
+        </select>
+        <span>状态: </span>
+        <select name="stateCheck" id="stateCheck">
+            <option value="" th:text="请选择状态"></option>
+            <option value="1" th:text="启用"></option>
+            <option value="0" th:text="停用"></option>
+        </select>
+        <button type="submit" class="layui-btn">查询</button>
+    </form>
+    <br>
+    <form  method="post" name="fromAccount">
+    <div class="layui-btn-group demoTable">
+        <a class="layui-btn" th:onclick="addUser()">新增</a>
+        <a class="layui-btn" th:onclick="startAccount()">启用账户</a>
+        <a class="layui-btn" th:onclick="stopAccount()">停用账户</a>
+    </div>
+    <br>
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th style="width:3%"><input lay-skin="primary" type="checkbox" id="checkall" onclick="swapCheck()"/></th>
+                <th style="width: 10%;">账号</th>
+                <th style="width: 6%;">姓名</th>
+                <th style="width: 10%;">角色</th>
+                <th style="width: 10%;">状态</th>
+                <th style="width: 10%;">备注</th>
+                <th style="width: 25%;">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="userList: ${page.list}">
+                <td th:value="${userList.user_id}"><input type="checkbox" name="user_ids" th:value="${userList.user_id}"></td>
+                <td th:text="${userList.account}"></td>
+                <td th:text="${userList.name}"></td>
+                <td th:text="${userList.roleName}"></td>
+                <td th:switch="${userList.state} eq 0">
+                    <pan th:case="true">启用</pan>
+                    <pan th:case="false">停用</pan>
+                </td>
+                <td th:text="${userList.remark}"></td>
+                <td>
+                    <a class="layui-btn layui-btn-sm"
+                       th:data-id="${userList.user_id}" th:onclick="editUser(this.getAttribute('data-id'))">编辑</a>
+                    <a class="layui-btn layui-btn-sm"
+                       th:data-id="${userList.user_id}" th:href="@{editUserWarehouse(user_id=${userList.user_id})}">库房设置</a>
+                    <a class="layui-btn layui-btn-sm"
+                       th:data-id="${userList.user_id}" th:onclick="editUserRole(this.getAttribute('data-id'))">角色设置</a>
+                    <a class="layui-btn layui-btn-sm"
+                        th:href="@{passwordReswt(user_id=${userList.user_id})}" onclick="return confirm('确认重置密吗?')">密码重置</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+    <p th:text="|当前: ${page.pageNum}页  共: ${page.pages}页|"></p>
+    <div class="pagination" style="color: rgb(80, 190, 154);">
+        <ul>
+            <li><a th:href="@{userList(start=1,name=${name},stateCheck=${stateCheck},account=${account},roleCheck=${roleCheck})}">首页</a></li>
+            <li><a th:href="@{userListList(start=${page.pageNum-1},name=${name},stateCheck=${stateCheck},account=${account},roleCheck=${roleCheck})}">上一页</a></li>
+            <li><a th:href="@{userListList(start=${page.pageNum+1},name=${name},stateCheck=${stateCheck},account=${account},roleCheck=${roleCheck})}">下一页</a></li>
+            <li><a th:href="@{userList(start=${page.pages},name=${name},stateCheck=${stateCheck},account=${account},roleCheck=${roleCheck})}">末页</a></li>
+        </ul>
+    </div>
+
+    <script type="text/javascript"src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        //checkbox 全选/取消全选
+        var isCheckAll = false;
+        function swapCheck() {
+            if (isCheckAll) {
+                $("input[type='checkbox']").each(function() {
+                    this.checked = false;
+                });
+                isCheckAll = false;
+            } else {
+                $("input[type='checkbox']").each(function() {
+                    this.checked = true;
+                });
+                isCheckAll = true;
+            }
+        }
+        function startAccount(){
+            document.fromAccount.action="userStartAccount";
+            document.fromAccount.submit();
+        }
+        function stopAccount(){
+            document.fromAccount.action="userStopAccount";
+            document.fromAccount.submit();
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+</head>
+
+<body>
+    <form class="form-search" action="purchaseReceiveList" method="POST">
+        <span>收货单编号: </span>
+        <input type="text" class="input-medium search-query" name="keywords_no">
+        <button type="submit" class="btn">查询</button>
+    </form>
+    <!-- <div class="layui-btn-group demoTable">
+    </div> -->
+    <hr class="layui-bg-green">
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th style="width: 10%;">收货单编号</th>
+                <th style="width: 15%;">订单编号</th>
+                <th style="width: 10%;">状态</th>
+                <th style="width: 20%;">备注</th>
+                <th style="width: 25%;">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="purchaseReceive: ${page.list}">
+                <td th:text="${purchaseReceive.purchase_receive_no}"></td>
+                <td th:text="${purchaseReceive.purchase_no}"></td>
+                <td th:text="${(purchaseReceive.state == 0) ? '未入库' : '已入库'}"></td>
+                <td th:text="${purchaseReceive.remark}"></td>
+                <td>
+                    <a th:if="${purchaseReceive.state == 0}" class="layui-btn layui-btn-sm" th:href="@{addPurchaseApply(purchase_no=${purchaseReceive.purchase_no},purchase_receive_no=${purchaseReceive.purchase_receive_no})}">申请入库</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p th:text="|当前: ${page.pageNum}页  共: ${page.pages}页|"></p>
+    <div class="pagination" style="color: rgb(80, 190, 154);">
+        <ul>
+            <li><a th:href="@{purchaseReceiveList(start=1, keywords_no=${keywords_no})}">首页</a>
+            </li>
+            <li><a
+                    th:href="@{purchaseReceiveList(start=${page.pageNum-1},keywords_no=${keywords_no})}">上一页</a>
+            </li>
+            <li><a
+                    th:href="@{purchaseReceiveList(start=${page.pageNum+1},keywords_no=${keywords_no})}">下一页</a>
+            </li>
+            <li><a
+                    th:href="@{purchaseReceiveList(start=${page.pages},keywords_no=${keywords_no})}">末页</a>
+            </li>
+        </ul>
+    </div>
+
+</body>
+
+</html>

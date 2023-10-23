@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+    <script>
+        $(function () {
+            var add = function (lay, id) {
+                if (lay == "1") {
+                    //则添加仓库, 所属工厂id为id
+                    layui.use('layer', function () {
+                        var layer = layui.layer;
+                        layer.open({
+                            type: 2,
+                            title: "新增",
+                            maxmin: true,
+                            area: ["600px", "400px"],
+                            offset: "50px",
+                            cancel: function () {
+                                window.location.reload();
+                            },
+                            content: 'addWarehouse?werks_id=' +
+                                id //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                        });
+                    });
+                } else if (lay == "2") {
+                    //则添加库位, 所属仓库id为id
+                    layui.use('layer', function () {
+                        var layer = layui.layer;
+                        layer.open({
+                            type: 2,
+                            title: "新增",
+                            maxmin: true,
+                            area: ["600px", "400px"],
+                            offset: "50px",
+                            cancel: function () {
+                                window.location.reload();
+                            },
+                            content: 'addLocation?lgort=' +
+                                id //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                        });
+                    });
+                } else if (lay == "3") {
+                    //无操作
+                }
+            }
+            var edit = function(lay,id) {
+                if (lay == "1") {
+                    //无操作
+                } else if (lay == "2") {
+                    //则编辑该仓库, 仓库id为id
+                    layui.use('layer', function () {
+                        var layer = layui.layer;
+                        layer.open({
+                            type: 2,
+                            title: "编辑",
+                            maxmin: true,
+                            area: ["600px", "400px"],
+                            offset: "50px",
+                            cancel: function () {
+                                window.location.reload();
+                            },
+                            content: 'editWarehouse?warehouse_id=' +
+                                id //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                        });
+                    });
+                } else if (lay == "3") {
+                    //则编辑库位, 库位id为id
+                    layui.use('layer', function () {
+                        var layer = layui.layer;
+                        layer.open({
+                            type: 2,
+                            title: "编辑",
+                            maxmin: true,
+                            area: ["600px", "400px"],
+                            offset: "50px",
+                            cancel: function () {
+                                window.location.reload();
+                            },
+                            content: 'editLocation?location_id=' +
+                                id //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                        });
+                    });
+                }
+            }
+            var del = function(lay, id) {
+                if (lay == "1") {
+                    //无操作
+                } else if (lay == "2") {
+                    //根据id删除仓库
+                    window.location.href = "deleteWarehouse?warehouse_id=" + id;
+                } else if (lay == "3") {
+                    //根据id删除库位
+                    window.location.href = "deleteLocation?location_id=" + id;
+                }
+            }
+            layui.use("tree", function () {
+                var tree = layui.tree;
+                var data;
+                $.ajax({
+                    type: "post",
+                    url: "getLocationsOnTree",
+                    dataType: "json",
+                    async: false,
+                    success: function (response) {
+                        data = response;
+                    }
+                });
+                tree.render({
+                    elem: '#tree',
+                    data: data,
+                    edit: ['add', 'del'] //操作节点的图标
+                        ,
+                    click: function (obj) {
+                        var lay = obj.data.lay;
+                        var id = obj.data.id;
+                        edit(lay, id);
+                    },
+                    operate: function (obj) {
+                        var type = obj.type;
+                        var id = obj.data.id;
+                        var lay = obj.data.lay;
+                        if (type === 'add') { //增加节点
+                            add(lay, id);
+                            return 123;
+                        } else if (type === 'del') { //删除节点
+                            del(lay, id);
+                        };
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="tree"></div>
+</body>
+
+</html>

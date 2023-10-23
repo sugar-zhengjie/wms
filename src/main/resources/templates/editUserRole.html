@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+</head>
+
+<body>
+    <div>
+        <form style="width:500px;margin: auto" class="form-horizontal" action="editUserRoleCommit" method="post">
+            <span>用户角色设置</span>
+            <input type="hidden" name="user_id" th:value="${user_id}">
+            <div class="control-group">
+                <div class="controls">
+                    <div th:each="role: ${roles}">
+                        <input type="radio" name="userRole" th:text="${role.name}" th:value="${role.role_id}">
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="layui-btn">提交修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

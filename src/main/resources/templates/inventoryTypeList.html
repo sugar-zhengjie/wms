@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+    <script>
+        $(function () {
+            window.add = function () {
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        type: 2,
+                        title:"新增",
+                        maxmin: true,
+                        area: ["600px", "300px"],
+                        offset: "50px",
+                        cancel: function () {
+                            window.location.reload();
+                        },
+                        content: 'addInventoryType' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    });
+                });
+            }
+            window.edit = function (id) {
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        type: 2,
+                        title:"编辑",
+                        maxmin: true,
+                        area: ["600px", "300px"],
+                        offset: "50px",
+                        cancel: function () {
+                            window.location.reload();
+                        },
+                        content: 'editInventoryType?inventory_type_id=' +
+                            id //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    });
+                });
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <form class="form-search" action="inventoryTypeList" method="POST">
+        <span>出入库类型名称: </span>
+        <input type="text" class="input-medium search-query" name="keywords">
+        <button type="submit" class="btn">查询</button>
+    </form>
+    <div class="layui-btn-group demoTable">
+        <a class="layui-btn" onclick="add()">新增</a>
+    </div>
+
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th style="width: 15%;">出入库类型</th>
+                <th style="width: 20%;">编号</th>
+                <th style="width: 30%;">名称</th>
+                <th style="width: 20%;">备注</th>
+                <th style="width: 15%;">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="inventoryType: ${page.list}">
+                <td th:text="${inventoryType.io_type}"></td>
+                <td th:text="${inventoryType.inventory_type_no}"></td>
+                <td th:text="${inventoryType.name}"></td>
+                <td th:text="${inventoryType.remark}"></td>
+                <td>
+                    <a class="layui-btn layui-btn-sm" th:data-id="${inventoryType.inventory_type_id}"
+                        th:onclick="edit(this.getAttribute('data-id'))">修改</a>
+                    <a class="layui-btn layui-btn-sm"
+                        th:href="@{deleteInventoryType(inventory_type_id=${inventoryType.inventory_type_id})}"
+                        onclick="return confirm('确认删除吗?')">删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p th:text="|当前: ${page.pageNum}页  共: ${page.pages}页|"></p>
+    <div class="pagination" style="color: rgb(80, 190, 154);">
+        <ul>
+            <li><a th:href="@{inventoryTypeList(start=1,keywords=${keywords})}">首页</a></li>
+            <li><a th:href="@{inventoryTypeList(start=${page.pageNum-1},keywords=${keywords})}">上一页</a></li>
+            <li><a th:href="@{inventoryTypeList(start=${page.pageNum+1},keywords=${keywords})}">下一页</a></li>
+            <li><a th:href="@{inventoryTypeList(start=${page.pages},keywords=${keywords})}">末页</a></li>
+        </ul>
+    </div>
+
+</body>
+
+</html>

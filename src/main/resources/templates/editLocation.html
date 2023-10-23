@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+</head>
+
+<body>
+    <div>
+        <form style="width:500px;margin: auto" class="form-horizontal" action="editLocationCommit" method="post">
+            <input type="hidden" name="location_id" th:value="${onEditLocation.location_id}">
+            <div class="control-group">
+                <label class="control-label" for="inputLocationNo">库位编码</label>
+                <div class="controls">
+                    <input type="text" id="inputLocationNo" name="location_no" th:value="${onEditLocation.location_no}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputName">库位名称</label>
+                <div class="controls">
+                    <input type="text" id="inputName" name="name" th:value="${onEditLocation.name}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputlength">长(厘米)</label>
+                <div class="controls">
+                    <input type="text" id="inputLength" name="length" th:value="${onEditLocation.length}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputWidth">宽(厘米)</label>
+                <div class="controls">
+                    <input type="text" id="inputWidth" name="width" th:value="${onEditLocation.width}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputHeight">高(厘米)</label>
+                <div class="controls">
+                    <input type="text" id="inputHeight" name="height" th:value="${onEditLocation.height}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputWeightLimit">限重(公斤)</label>
+                <div class="controls">
+                    <input type="text" id="inputWeightLimit" name="weight_limit" th:value="${onEditLocation.weight_limit}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputState">库位状态</label>
+                <div class="controls">
+                    <select name="state" id="inputState">
+                        <option th:selected="${onEditLocation.state == 1}" value="1">正常</option>
+                        <option th:selected="${onEditLocation.state == 0}" value="0">冻结</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputDescription">描述</label>
+                <div class="controls">
+                    <input type="text" id="inputDescription" name="description" th:value="${onEditLocation.description}">
+                </div>
+
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn">提交修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

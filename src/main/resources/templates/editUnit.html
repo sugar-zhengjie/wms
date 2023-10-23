@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+</head>
+
+<body>
+    <div>
+        <form style="width:500px;margin: auto" class="form-horizontal" action="editUnitCommit" method="post">
+            <input type="hidden" name="multi_unit_id" th:value="${onEditUnit.multi_unit_id}">
+            <div class="control-group">
+                <label class="control-label" for="inputMultiUnitNo">计量单位编号</label>
+                <div class="controls">
+                    <input type="text" id="inputMultiUnitNo" name="multi_unit_no" th:value="${onEditUnit.multi_unit_no}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputUnit">计量单位名称</label>
+                <div class="controls">
+                    <input type="text" id="inputUnit" name="unit" th:value="${onEditUnit.unit}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputRemark">备注</label>
+                <div class="controls">
+                    <input type="text" id="inputRemark" name="remark" th:value="${onEditUnit.remark}">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn">提交修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

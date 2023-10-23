@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+    <script th:inline="javascript">
+        $(function () {
+            layui.use("tree", function () {
+                var tree = layui.tree;
+                var data;
+                $.ajax({
+                    type: "post",
+                    url: "getLocationsOnTree",
+                    dataType: "json",
+                    async: false,
+                    success: function (response) {
+                        data = response;
+                        console.log(data);
+                    }
+                });
+                tree.render({
+                    elem: '#tree',
+                    data: data,
+                    edit: false, //操作节点的图标
+                    click: function (obj) {
+                        var lay = obj.data.lay;
+                        var no = obj.data.no;
+                        edit(lay, no);
+                    }
+                });
+            });
+            var edit = function (lay, no) {
+                if (lay == "3") {
+                    $("#inputLocationNo").val(no);
+                }
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <div id="tree">
+    </div>
+    <form style="width:500px;margin: auto" class="form-horizontal" action="editPurchaseApplyItem" method="post">
+        <input type="hidden" name="purchase_apply_item_id" th:value="${purchase_apply_item_id}">
+        <div class="control-group">
+            <label class="control-label" for="inputLocationNo">库位编号:</label>
+            <div class="controls">
+                <input type="text" id="inputLocationNo" name="location_no">
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn">确认添加</button>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>

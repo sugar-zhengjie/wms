@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+          th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+</head>
+
+<body>
+当前为收货单号:<span th:text="${purchaseReceive.purchase_receive_no}"></span>的未收货清单
+<form  method="post" action="addPurchaseReceiveItemList">
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th style="width: 10%;">采购订单编号</th>
+            <th style="width: 6%;">行号</th>
+            <th style="width: 10%;">剩余数量</th>
+            <th style="width: 10%;">实际收货数量</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="purchaseItem: ${page.list}">
+            <td th:text="${purchaseItem.purchase_no}"></td>
+            <td th:text="${purchaseItem.purchase_item_no}"></td>
+            <td th:text="${purchaseItem.quantity.subtract(purchaseItem.init_received_quantity)}"></td>
+            <td><input type="text" th:name="|${purchaseItem.purchase_item_no},${purchaseReceive.purchase_receive_no},${purchaseReceive.purchase_no}|"></td>
+        </tr>
+        </tbody>
+    </table>
+    <button style="display:block;margin:0 auto" type="submit" class="layui-btn">确认收货</button>
+</form>
+<p th:text="|当前: ${page.pageNum}页  共: ${page.pages}页|"></p>
+<div class="pagination" style="color: rgb(80, 190, 154);">
+    <ul>
+        <li><a th:href="@{purchaseReceiveList(start=1)}">首页</a></li>
+        <li><a th:href="@{purchaseReceiveList(start=${page.pageNum-1})}">上一页</a></li>
+        <li><a th:href="@{purchaseReceiveList(start=${page.pageNum+1})}">下一页</a></li>
+        <li><a th:href="@{purchaseReceiveList(start=${page.pages})}">末页</a></li>
+    </ul>
+</div>
+</body>
+
+</html>

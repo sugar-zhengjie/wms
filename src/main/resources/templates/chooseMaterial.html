@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+    <script>
+        $(function () {
+            $.ajax({
+                type: "post",
+                url: "getMaterialTypes",
+                dataType: "json",
+                success: function (response) {
+                    $.each(response, function (index, element) {
+                        $("#type_bar").append(
+                            "<li class='layui-nav-item'><a href='chooseMaterial?material_type_id=" +
+                            element.material_type_id + "'>" + element.name + "</a></li>"
+                        );
+                    })
+                }
+            });
+        })
+    </script>
+</head>
+
+<body>
+    <ul id="type_bar" class="layui-nav layui-bg-green" lay-filter="test">
+        <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+        <!-- <li class="layui-nav-item">
+            <a href="javascript:;">菜单1</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">菜单2</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="">菜单3</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="">菜单4</a>
+        </li> -->
+    </ul>
+    <hr class="layui-bg-green">
+    <form class="form-search" action="chooseMaterial" method="POST">
+        <span>物料编号: </span>
+        <input type="text" class="input-medium search-query" name="keywords_no">
+        <span>物料名称: </span>
+        <input type="text" class="input-medium search-query" name="keywords_name">
+        <span>规格型号: </span>
+        <input type="text" class="input-medium search-query" name="keywords_specifications">
+        <button type="submit" class="btn">查询</button>
+    </form>
+
+    <div class="layui-btn-group demoTable">
+        <a class="layui-btn" th:href="@{purchaseItemList(purchase_no=${purchase_no})}">返回到采购订单清单</a>
+    </div>
+
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th style="width: 10%;">物料编号</th>
+                <th style="width: 10%;">物料名称</th>
+                <th style="width: 10%;">物料类别</th>
+                <th style="width: 10%;">规格型号</th>
+                <th style="width: 15%;">生产厂商</th>
+                <th style="width: 15%;">主单位</th>
+                <th style="width: 10%;">单价</th>
+                <th style="width: 20%;">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="material: ${page.list}">
+                <form action="addToPurchase">
+                    <td th:text="${material.material_no}"></td>
+                    <input type="hidden" name="matnr" th:value="${material.material_no}">
+                    <td th:text="${material.name}"></td>
+                    <input type="hidden" name="matnr_description" th:value="${material.name}">
+                    <td th:text="${material.material_type_name}"></td>
+                    <td th:text="${material.specifications}"></td>
+                    <td th:text="${material.vendor}"></td>
+                    <td th:text="${material.unit}"></td>
+                    <input type="hidden" name="unit" th:value="${material.unit}">
+                    <td th:text="${material.sales_price}"></td>
+                    <input type="hidden" name="price" th:value="${(material.sales_price == null) ? 0:material.sales_price}">
+                    <td>
+                        <input type="text" name="quantity" class="input-small span1" placeholder="输入数量">
+                        <input type="hidden" name="purchase_no" th:value="${purchase_no}">
+                        <button type="submit" class="btn">添加至订单</button>
+                    </td>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+    <p th:text="|当前: ${page.pageNum}页  共: ${page.pages}页|"></p>
+    <div class="pagination" style="color: rgb(80, 190, 154);">
+        <ul>
+            <li><a
+                    th:href="@{chooseMaterial(start=1,keywords_no=${keywords_no},keywords_name=${keywords_name},keywords_specifications=${keywords_specifications},material_type_id=${material_type_id},purchase_no=${purchase_no})}">首页</a>
+            </li>
+            <li><a
+                    th:href="@{chooseMaterial(start=${page.pageNum-1},keywords_no=${keywords_no},keywords_name=${keywords_name},keywords_specifications=${keywords_specifications},material_type_id=${material_type_id},purchase_no=${purchase_no})}">上一页</a>
+            </li>
+            <li><a
+                    th:href="@{chooseMaterial(start=${page.pageNum+1},keywords_no=${keywords_no},keywords_name=${keywords_name},keywords_specifications=${keywords_specifications},material_type_id=${material_type_id},purchase_no=${purchase_no})}">下一页</a>
+            </li>
+            <li><a
+                    th:href="@{chooseMaterial(start=${page.pages},keywords_no=${keywords_no},keywords_name=${keywords_name},keywords_specifications=${keywords_specifications},material_type_id=${material_type_id},purchase_no=${purchase_no})}">末页</a>
+            </li>
+        </ul>
+    </div>
+
+</body>
+
+</html>

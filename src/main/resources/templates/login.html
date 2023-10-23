@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap-responsive.min.css">
+    <style>
+        #login_form {
+            width: 550px;
+            margin: auto;
+            margin-top: 8%;
+            border-radius: 20px;
+            border: 1px black solid;
+            background-color: rgb(220, 232, 255);
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+
+<body style="background:url('./img/loginbg.jpg');background-size: 100% 100%">
+    <div id="login_form">
+        <h2 align="center">仓储管理系统</h2><br>
+        <h2 align="center" th:text="${error}|" class="error">></h2>
+        <form class="form-horizontal" action="/wms/login.action" method="POST">
+            <div class="control-group">
+                <label class="control-label" for="inputAccount">账户 <i class="icon-user"></i></label>
+                <div class="controls">
+                    <input type="text" id="inputAccount" name="account" placeholder="请输入账户">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputPassword">密码 <i class="icon-lock"></i></label>
+                <div class="controls">
+                    <input type="password" id="inputPassword" name="password" placeholder="请输入密码">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-primary" value="登录" />
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+</head>
+
+<body>
+    <div>
+        <form style="width:500px;margin: auto" class="form-horizontal" action="addWerksCommit" method="post">
+            <div class="control-group">
+                <label class="control-label" for="inputWerksNo">工厂编号</label>
+                <div class="controls">
+                    <input type="text" id="inputWerksNo" name="werks_no">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputName">工厂名称</label>
+                <div class="controls">
+                    <input type="text" id="inputName" name="name">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputRemark">备注</label>
+                <div class="controls">
+                    <input type="text" id="inputRemark" name="remark">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn">确认添加</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

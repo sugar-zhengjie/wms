@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+</head>
+
+<body>
+    <div>
+        <form style="width:500px;margin: auto" class="form-horizontal" action="addUserWarehouseCommit" method="post">
+            <span>选择目前无仓库管理员的仓库</span>
+            <input type="hidden" name="user_id" th:value="${user_id}">
+            <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th style="width:3%"><input lay-skin="primary" type="checkbox" id="checkall" onclick="swapCheck()"/></th>
+                        <th style="width: 10%;">仓库编号</th>
+                        <th style="width: 10%;">仓库名称</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="warehouse: ${warehouses}">
+                        <td th:value="${warehouse.warehouse_id}"><input type="checkbox" name="warehouse_ids" th:value="${warehouse.warehouse_id}"></td>
+                        <td th:text="${warehouse.warehouse_no}"></td>
+                        <td th:text="${warehouse.name}"></td>
+                    </tr>
+                    </tbody>
+            </table>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="layui-btn">提交仓库添加</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        //checkbox 全选/取消全选
+        var isCheckAll = false;
+        function swapCheck() {
+            if (isCheckAll) {
+                $("input[type='checkbox']").each(function() {
+                    this.checked = false;
+                });
+                isCheckAll = false;
+            } else {
+                $("input[type='checkbox']").each(function() {
+                    this.checked = true;
+                });
+                isCheckAll = true;
+            }
+        }
+    </script>
+</body>
+
+</html>

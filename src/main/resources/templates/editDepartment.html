@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+</head>
+
+<body>
+    <div>
+        <form style="width:500px;margin: auto" class="form-horizontal" action="editDepartmentCommit" method="post">
+            <input type="hidden" name="department_id" th:value="${onEditDepartment.department_id}">
+            <div class="control-group">
+                <label class="control-label" for="inputDepartmentNo">部门编号</label>
+                <div class="controls">
+                    <input type="text" id="inputDepartmentNo" name="department_no" th:value="${onEditDepartment.department_no}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputName">部门名称</label>
+                <div class="controls">
+                    <input type="text" id="inputName" name="name" th:value="${onEditDepartment.name}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputRemark">备注</label>
+                <div class="controls">
+                    <input type="text" id="inputRemark" name="remark" th:value="${onEditDepartment.remark}">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn">提交修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+          th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+    <script>
+        $(function(){
+            initData();
+            function initData() {
+
+            }
+        });
+    </script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin layui-bg-gray">
+    <div class="layui-header layui-bg-gray">
+        <div class="layui-logo">您的位置：-->权限分配</div>
+    </div>
+    <div class="layui-side layui-bg-gray">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed ">
+                    <p align="center" >角色名称</p>
+                    <dl class="" th:each="role:${roles}">
+                        <dd><a class="site-demo-active"  data-title=""  th:text="${role.name}" th:onclick="goRead([[${role.role_id}]]);"></a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+            <br>
+            <button class="layui-btn layui-btn-lg" lay-demo="saveMenu">保存</button>
+        </div>
+    </div>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div class="demo-tree" id="menu"></div>
+    </div>
+</div>
+<script th:inline="javascript" type="text/javascript">
+    var that = this;
+    function goRead(id){
+        $.ajax({
+            url: "permissionList.action",    //后台数据请求地址
+            data: {id: id},//id为加载当前角色的权限菜单，为角色id
+            type: "post",
+            async:true,
+            success: function(result){
+                layui.use(['tree', 'util','form'], function() {
+                    var tree = layui.tree,
+                        layer = layui.layer,
+                        util = layui.util
+                    var inst1 = tree.render({
+                        elem: '#menu'
+                        ,data:JSON.parse(result)
+                        ,id: 'menu'
+                        ,showCheckbox: true
+                    });
+                    //保存修改的权限
+                    util.event('lay-demo', {
+                        saveMenu: function(othis){       //saveMenu和保存按钮的lay-demo属性对应
+                            var checkedData = tree.getChecked('menu'); //获取选中节点的数据
+                            var str = JSON.stringify(checkedData);    //转为json格式
+                            $.ajax({
+                                type: 'post',
+                                url: 'savePermission',
+                                data: {id:id,data: str},
+                                async : true,
+                                success : function(result){
+                                    if(result){
+                                        layer.msg("权限修改成功");
+                                    }else{
+                                        layer.msg("权限修改失败");
+                                    }
+                                }
+                            })
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+
+</script>
+</body>
+</html>

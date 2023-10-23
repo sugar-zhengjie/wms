@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+    <script>
+        $(function () {
+            window.edit = function (id) {
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        type: 2,
+                        title: "选择库位",
+                        maxmin: true,
+                        area: ["600px", "300px"],
+                        offset: "50px",
+                        cancel: function () {
+                            window.location.reload();
+                        },
+                        content: 'chooseLocation?purchase_apply_item_id=' +
+                            id //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    });
+                });
+            }
+        })
+    </script>
+</head>
+
+<body>
+    <!-- <form class="form-search" action="purchaseApplyItemList" method="POST">
+        <span>订单编号: </span>
+        <input type="text" class="input-medium search-query" name="keywords_no">
+        <button type="submit" class="btn">查询</button>
+    </form> -->
+    <div class="layui-btn-group demoTable">
+        <a class="layui-btn" th:href="@{addShelves(purchase_no=${purchase_no},purchase_apply_no=${purchase_apply_no},purchase_receive_no=${purchase_receive_no})}">生成入库单</a>
+    </div>
+
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th style="width: 11%;">入库申请项编号</th>
+                <th style="width: 11%;">入库申请编号</th>
+                <th style="width: 11%;">采购订单编号</th>
+                <th style="width: 11%;">物料编号</th>
+                <th style="width: 20%;">数量</th>
+                <th style="width: 11%;">库位编号</th>
+                <th style="width: 25%;">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="purchaseApplyItem: ${page.list}">
+                <td th:text="${purchaseApplyItem.purchase_apply_item_no}"></td>
+                <td th:text="${purchaseApplyItem.purchase_apply_no}"></td>
+                <td th:text="${purchaseApplyItem.purchase_no}"></td>
+                <td th:text="${purchaseApplyItem.matnr}"></td>
+                <td th:text="${purchaseApplyItem.quantity}"></td>
+                <td th:text="${purchaseApplyItem.location_no}"></td>
+                <td>
+                    <a class="layui-btn layui-btn-sm" th:id="${purchaseApplyItem.purchase_apply_item_id}" th:data-id="${purchaseApplyItem.purchase_apply_item_id}"
+                        th:onclick="edit(this.getAttribute('data-id'))">选择库位</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p th:text="|当前: ${page.pageNum}页  共: ${page.pages}页|"></p>
+    <div class="pagination" style="color: rgb(80, 190, 154);">
+        <ul>
+            <li><a th:href="@{purchaseApplyItemList(start=1,purchase_no=${purchase_no},purchase_receive_no=${purchase_receive_no},purchase_apply_no=${purchase_apply_no})}">首页</a>
+            </li>
+            <li><a th:href="@{purchaseApplyItemList(start=${page.pageNum-1},purchase_no=${purchase_no},purchase_receive_no=${purchase_receive_no},purchase_apply_no=${purchase_apply_no})}">上一页</a>
+            </li>
+            <li><a th:href="@{purchaseApplyItemList(start=${page.pageNum+1},purchase_no=${purchase_no},purchase_receive_no=${purchase_receive_no},purchase_apply_no=${purchase_apply_no})}">下一页</a>
+            </li>
+            <li><a th:href="@{purchaseApplyItemList(start=${page.pages},purchase_no=${purchase_no},purchase_receive_no=${purchase_receive_no},purchase_apply_no=${purchase_apply_no})}">末页</a>
+            </li>
+        </ul>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+</head>
+
+<body>
+    <div>
+        <form style="width:500px;margin: auto" class="form-horizontal" action="editSupplierCommit" method="post">
+            <input type="hidden" name="supplier_id" th:value="${onEditSupplier.supplier_id}">
+            <div class="control-group">
+                <label class="control-label" for="inputSupplierNo">供应商编码</label>
+                <div class="controls">
+                    <input type="text" id="inputSupplierNo" name="supplier_no" th:value="${onEditSupplier.supplier_no}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputName">供应商名称</label>
+                <div class="controls">
+                    <input type="text" id="inputName" name="name" th:value="${onEditSupplier.name}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputContactName">联系人</label>
+                <div class="controls">
+                    <input type="text" id="inputContactName" name="contact_name"
+                        th:value="${onEditSupplier.contact_name}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputContactPhone">电话</label>
+                <div class="controls">
+                    <input type="text" id="inputContactPhone" name="contact_phone"
+                        th:value="${onEditSupplier.contact_phone}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputContactEmail">邮箱</label>
+                <div class="controls">
+                    <input type="text" id="inputContactEmail" name="contact_email"
+                        th:value="${onEditSupplier.contact_email}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputStreetAddress">地址</label>
+                <div class="controls">
+                    <input type="text" id="inputStreetAddress" name="street_address"
+                        th:value="${onEditSupplier.street_address}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputRegion">省份</label>
+                <div class="controls">
+                    <input type="text" id="inputRegion" name="region" th:value="${onEditSupplier.region}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputPostCode">邮编</label>
+                <div class="controls">
+                    <input type="text" id="inputPostCode" name="post_code" th:value="${onEditSupplier.post_code}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputRemark">备注</label>
+                <div class="controls">
+                    <input type="text" id="inputRemark" name="remark" th:value="${onEditSupplier.remark}">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn">提交修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

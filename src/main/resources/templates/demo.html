@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+        th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+    <script>
+        $(function () {
+            layui.use("tree", function () {
+                var tree = layui.tree;
+                var data = [{"title":"一级菜单1","id":"1000",lay:"1","children":[{"title":"二级菜单11","id":"1001",lay:"2","children":null},{"title":"二级菜单12","id":"1002",lay:"2","children":null}]},{"title":"一级菜单2","id":"2000",lay:"1","children":[{"title":"二级菜单21","id":"2001",lay:"2","children":null},{"title":"二级菜单22","id":"2002",lay:"2","children":null}]}]
+                tree.render({
+                    elem: '#div1',
+                    data: data,
+                    edit: ['add', 'update', 'del'] //操作节点的图标
+                        ,
+                    click: function (obj) {
+                        layer.msg(JSON.stringify(obj.data));
+                    },
+                    operate: function (obj) {
+                        var type = obj.type;
+                        var id = obj.data.id;
+                        var lay = obj.data.lay;
+                        if (type === 'add') { //增加节点
+                            alert(lay + "级菜单, 编号:" + id + "下新增节点");
+                            return 456;
+                        } else if (type === 'update') { //修改节点
+                            alert("修改" + lay + "级节点:" + id);
+                        } else if (type === 'del') { //删除节点
+                            alert("删除" + lay + "级结点" + id);
+                        };
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="div1"></div>
+</body>
+
+</html>

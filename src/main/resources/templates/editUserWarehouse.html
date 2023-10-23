@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓储管理</title>
+    <script src="../static/js/jquery.min.js" th:src="@{./js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{./js/bootstrap.min.js}"></script>
+    <script src="../static/layui/layui.js" th:src="@{./layui/layui.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{./css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css"
+          th:href="@{./css/bootstrap-responsive.min.css}">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{./layui/css/layui.css}">
+    <script>
+        $(function () {
+            window.addUserWarehouse = function(id) {
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        type: 2,
+                        title:"新增仓库管理",
+                        maxmin: true,
+                        area: ["600px", "400px"],
+                        offset: "50px",
+                        cancel: function() {
+                            window.location.reload();
+                        },
+                        content: 'addUserWarehouse?user_id=' + id //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    });
+                });
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+<div class="layui-btn-group demoTable">
+    <a class="layui-btn" th:data-id="${user_id}" th:onclick="addUserWarehouse(this.getAttribute('data-id'))">新增管理库房</a>
+</div>
+
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th style="width: 9%;">库房编号</th>
+        <th style="width: 10%;">仓库名称</th>
+        <th style="width: 15%;">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="warehouse: ${warehouses}">
+        <td th:text="${warehouse.warehouse_no}"></td>
+        <td th:text="${warehouse.name}"></td>
+        <td>
+            <a class="layui-btn layui-btn-sm"
+               th:href="@{deleteUserWarehouse(user_id=${user_id},warehouse_id=${warehouse.warehouse_id})}" onclick="return confirm('确认删除吗?')">删除仓库管理</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+
+</html>
